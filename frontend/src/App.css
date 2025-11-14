@@ -1,0 +1,74 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 30px;
+  color: white;
+  min-height: 100vh;
+}
+
+.usuarios-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 800px;
+  backdrop-filter: blur(10px);
+}
+
+.btn-atualizar {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 15px 0;
+  transition: background 0.3s;
+}
+
+.btn-atualizar:hover {
+  background: #ff5252;
+}
+
+.lista-usuarios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card-usuario {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.card-usuario h3 {
+  margin: 0 0 10px 0;
+  color: #fff;
+}
+
+.card-usuario p {
+  margin: 5px 0;
+  color: #e0e0e0;
+}
+
+.info {
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.info p {
+  margin: 8px 0;
+  font-size: 14px;
+}
