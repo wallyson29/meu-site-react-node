@@ -5,32 +5,38 @@ import './App.css';
 function App() {
   const [usuarios, setUsuarios] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(''); // AGORA ESTÁ DEFINIDO!
+  const [erro, setErro] = useState('');
+  const [novoUsuario, setNovoUsuario] = useState({ nome: '', email: '' });
 
-  // Busca usuários da API Node.js
+  // Busca usuários da API Node.js REAL
   const buscarUsuarios = async () => {
     try {
       setCarregando(true);
       setErro('');
       
-      // DADOS DE TESTE - funciona sem backend
-      const dadosTeste = [
-        { id: 1, nome: 'João Silva (Online)', email: 'joao@site.com' },
-        { id: 2, nome: 'Maria Santos (Online)', email: 'maria@site.com' },
-        { id: 3, nome: 'Pedro Oliveira (Online)', email: 'pedro@site.com' },
-        { id: 4, nome: 'Ana Costa (Online)', email: 'ana@site.com' }
-      ];
+      // USA BACKEND ONLINE NO RAILWAY
+      const response = await axios.get('https://meu-backend-nodejs-production.up.railway.app/api/usuarios');
       
-      // Simula delay de rede
-      setTimeout(() => {
-        setUsuarios(dadosTeste);
-        setCarregando(false);
-      }, 1000);
-      
+      setUsuarios(response.data);
+      setCarregando(false);
     } catch (error) {
       console.error('Erro:', error);
-      setErro('Usando dados de exemplo - Backend offline');
+      setErro('Erro ao carregar usuários do banco online');
       setCarregando(false);
+    }
+  };
+
+  // Adiciona novo usuário
+  const adicionarUsuario = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('https://meu-backend-nodejs-production.up.railway.app/api/usuarios', novoUsuario);
+      setNovoUsuario({ nome: '', email: '' });
+      buscarUsuarios(); // Recarrega a lista
+      alert('Usuário cadastrado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao cadastrar:', error);
+      alert('Erro ao cadastrar usuário');
     }
   };
 
@@ -51,15 +57,37 @@ function App() {
             🔄 Atualizar Lista
           </button>
 
+          {/* Formulário de cadastro */}
+          <div className="cadastro-section">
+            <h3>➕ Adicionar Novo Usuário</h3>
+            <form onSubmit={adicionarUsuario} className="form-cadastro">
+              <input
+                type="text"
+                placeholder="Nome completo"
+                value={novoUsuario.nome}
+                onChange={(e) => setNovoUsuario({...novoUsuario, nome: e.target.value})}
+                required
+              />
+              <input
+                type="email"
+                placeholder="E-mail"
+                value={novoUsuario.email}
+                onChange={(e) => setNovoUsuario({...novoUsuario, email: e.target.value})}
+                required
+              />
+              <button type="submit">Cadastrar Usuário</button>
+            </form>
+          </div>
+
           {erro && (
             <div className="erro">
               <p>❌ {erro}</p>
-              <p>💡 Verifique se o backend está rodando em localhost:5000</p>
+              <p>💡 Verifique se o backend está online</p>
             </div>
           )}
 
           {carregando && !erro && (
-            <p>⏳ Carregando usuários...</p>
+            <p>⏳ Carregando usuários do banco online...</p>
           )}
 
           {!carregando && !erro && usuarios.length > 0 && (
@@ -69,20 +97,22 @@ function App() {
                   <h3>{usuario.nome}</h3>
                   <p>📧 {usuario.email}</p>
                   <p>ID: {usuario.id}</p>
+                  <small>Criado em: {new Date(usuario.criado_em).toLocaleString('pt-BR')}</small>
                 </div>
               ))}
             </div>
           )}
 
           {!carregando && !erro && usuarios.length === 0 && (
-            <p>📭 Nenhum usuário encontrado</p>
+            <p>📭 Nenhum usuário encontrado no banco</p>
           )}
         </div>
 
         <div className="info">
-          <p>✅ Backend Node.js: http://localhost:5000</p>
-          <p>✅ Frontend React: http://localhost:3000</p>
-          <p>🎉 Sistema completo funcionando!</p>
+          <p>✅ Backend Node.js: https://meu-backend-nodejs-production.up.railway.app</p>
+          <p>✅ Frontend React: https://meu-site-react-node.vercel.app</p>
+          <p>✅ Banco de Dados: Supabase PostgreSQL</p>
+          <p>🎉 Sistema 100% Online e Funcionando!</p>
         </div>
       </header>
     </div>
