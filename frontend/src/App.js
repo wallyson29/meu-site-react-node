@@ -5,33 +5,34 @@ import './App.css';
 function App() {
   const [usuarios, setUsuarios] = useState([]);
   const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(''); // AGORA ESTÁ DEFINIDO!
 
   // Busca usuários da API Node.js
-const buscarUsuarios = async () => {
-  try {
-    setCarregando(true);
-    setErro('');
-    
-    // DADOS DE TESTE - funciona sem backend
-    const dadosTeste = [
-      { id: 1, nome: 'João Silva (Online)', email: 'joao@site.com' },
-      { id: 2, nome: 'Maria Santos (Online)', email: 'maria@site.com' },
-      { id: 3, nome: 'Pedro Oliveira (Online)', email: 'pedro@site.com' },
-      { id: 4, nome: 'Ana Costa (Online)', email: 'ana@site.com' }
-    ];
-    
-    // Simula delay de rede
-    setTimeout(() => {
-      setUsuarios(dadosTeste);
+  const buscarUsuarios = async () => {
+    try {
+      setCarregando(true);
+      setErro('');
+      
+      // DADOS DE TESTE - funciona sem backend
+      const dadosTeste = [
+        { id: 1, nome: 'João Silva (Online)', email: 'joao@site.com' },
+        { id: 2, nome: 'Maria Santos (Online)', email: 'maria@site.com' },
+        { id: 3, nome: 'Pedro Oliveira (Online)', email: 'pedro@site.com' },
+        { id: 4, nome: 'Ana Costa (Online)', email: 'ana@site.com' }
+      ];
+      
+      // Simula delay de rede
+      setTimeout(() => {
+        setUsuarios(dadosTeste);
+        setCarregando(false);
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Erro:', error);
+      setErro('Usando dados de exemplo - Backend offline');
       setCarregando(false);
-    }, 1000);
-    
-  } catch (error) {
-    console.error('Erro:', error);
-    setErro('Usando dados de exemplo - Backend offline');
-    setCarregando(false);
-  }
-};
+    }
+  };
 
   // Busca automaticamente quando a página carrega
   useEffect(() => {
@@ -50,9 +51,18 @@ const buscarUsuarios = async () => {
             🔄 Atualizar Lista
           </button>
 
-          {carregando ? (
+          {erro && (
+            <div className="erro">
+              <p>❌ {erro}</p>
+              <p>💡 Verifique se o backend está rodando em localhost:5000</p>
+            </div>
+          )}
+
+          {carregando && !erro && (
             <p>⏳ Carregando usuários...</p>
-          ) : (
+          )}
+
+          {!carregando && !erro && usuarios.length > 0 && (
             <div className="lista-usuarios">
               {usuarios.map(usuario => (
                 <div key={usuario.id} className="card-usuario">
@@ -62,6 +72,10 @@ const buscarUsuarios = async () => {
                 </div>
               ))}
             </div>
+          )}
+
+          {!carregando && !erro && usuarios.length === 0 && (
+            <p>📭 Nenhum usuário encontrado</p>
           )}
         </div>
 
