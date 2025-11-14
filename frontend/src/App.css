@@ -58,6 +58,11 @@
   color: #e0e0e0;
 }
 
+.card-usuario small {
+  color: #b0b0b0;
+  font-size: 12px;
+}
+
 .info {
   margin-top: 40px;
   padding: 20px;
@@ -71,4 +76,84 @@
 .info p {
   margin: 8px 0;
   font-size: 14px;
+}
+
+.erro {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+.erro p {
+  margin: 5px 0;
+}
+
+.cadastro-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.form-cadastro {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-cadastro input {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 16px;
+  border: 2px solid transparent;
+  transition: border 0.3s;
+}
+
+.form-cadastro input:focus {
+  outline: none;
+  border: 2px solid #667eea;
+}
+
+.form-cadastro button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+  font-weight: bold;
+}
+
+.form-cadastro button:hover {
+  background: #45a049;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .App-header {
+    padding: 20px;
+  }
+  
+  .usuarios-section {
+    padding: 20px;
+    margin: 15px;
+  }
+  
+  .lista-usuarios {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-cadastro {
+    max-width: 100%;
+  }
 }
